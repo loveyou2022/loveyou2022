@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>520</title>
+    <style>
+        .h-container {
+            position:relative;
+            width: 100px;
+            height: 100px;
+            margin:auto
+        }
+        .h-circle {
+            background-color: #f7b3ae;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .h-rect {
+            position: absolute;
+            background-color: #f7b3ae;
+            top: 24px;
+            left: 23px;
+            width: 52px;
+            height: 48px;
+            z-index: 3;
+            transform: rotateZ(45deg);
+        }
+        .right {
+            position:absolute;
+            top:0px;
+            left: 50px;
+        }
+        .content{
+            text-align: center;
+        }
+        .mark {
+            font-size: 30px;
+            font-weight: 200;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+    <div class="h-container">
+        <div class="h-circle"></div>
+        <div class="h-circle right"></div>
+        <div class="h-rect"></div>
+    </div>
+    <div class="couple-name mark">Y & B</div>
+    <div class="record">
+        <div class="item-name">我们相识于<span id="meet-date" class="mark"></span>，距今<span id="meetDays" class="mark"></span>天</div>
+        <div class="item-name"><span id="together-date" class="mark"></span>在一起，距今<span id="togetherDays" class="mark"></span></div>
+        <div class="item-value" id="count"></div>
+    </div>
+    </div>
+</body>
+<script>
+    var meetDateStr = '2017-03-07'
+    var meetDate = new Date(meetDateStr)
+    var meetDays = Math.floor((Date.now() - meetDate.getTime())/(24*60*60*1000))
+    document.getElementById('meet-date').innerText = meetDateStr
+    document.getElementById('meetDays').innerText = meetDays
+    var togetherDateStr = '2017-03-07 05:20:00'
+    var togetherDate = new Date(togetherDateStr)
+    document.getElementById('together-date').innerText = togetherDateStr
+    function paddle(n) {
+        return n < 10?'0'+n:n
+    }
+    var oneDay = 24*60*60*1000
+    var hh = 60*60*1000
+    var mm = 60*1000
+    var ss = 1000
+    function format(n){
+        return paddle(Math.floor(n))
+    }
+    function getTime(){
+        var milli = Date.now() - togetherDate.getTime()
+        var togetherDays = format(milli/oneDay)
+        var thh = format((milli - togetherDays * oneDay)/hh)
+        var tmm = format((milli - thh * hh - togetherDays * oneDay)/mm)
+        var tss = format((milli - tmm*mm - thh * hh - togetherDays * oneDay)/ss)
+        document.getElementById('togetherDays').innerText = `${togetherDays}天${thh}时${tmm}分${tss}秒`
+    }
+    setInterval(getTime,1)
+</script>
+</html>
